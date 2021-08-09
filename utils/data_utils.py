@@ -32,3 +32,7 @@ def write_tsv(file, data, header=None):
         )
         writer.writeheader()
         writer.writerows(data)
+
+# from fairseq
+def is_npy_data(data: bytes):
+    return data[0] == 147 and data[1] == 78
