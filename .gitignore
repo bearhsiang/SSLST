@@ -1,3 +1,11 @@
+data/
+data-bin/
+fairseq/
+results/
+tsv/
+wandb/
+tmp*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

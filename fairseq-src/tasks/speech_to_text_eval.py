@@ -18,8 +18,14 @@ class SpeechToTextTaskEval(SpeechToTextTask):
 
     @classmethod
     def add_args(cls, parser):
-        super().add_args(parser)
-
+        # super().add_args(parser)
+        parser.add_argument("data", help="manifest root path")
+        parser.add_argument(
+            "--config-yaml",
+            type=str,
+            default="config.yaml",
+            help="Configuration YAML filename (under manifest root)",
+        )
         parser.add_argument("--eval-bleu", action='store_true')
         parser.add_argument("--eval-bleu-args", type=str, default='{}')
         parser.add_argument("--eval-bleu-detok", type=str, default='space')
