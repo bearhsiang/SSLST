@@ -15,7 +15,7 @@ class P2TTransformerModel(S2TTransformerModel):
     @classmethod
     def add_args(cls, parser):
         super().add_args(parser)
-        parser.add_argument('--input-feat-per-channel', type=int, required=True)
+        parser.add_argument('--input-feat-per-channel', type=int)
 
     @classmethod
     def build_model(cls, args, task):
@@ -146,9 +146,20 @@ def base_architecture(args):
 
 @register_model_architecture("p2t_transformer", "p2t_transformer_s")
 def p2t_transformer_s(args):
+    args.input_feat_per_channel = getattr(args, 'input_feat_per_channel', 256)
     args.encoder_embed_dim = getattr(args, "encoder_embed_dim", 256)
     args.encoder_ffn_embed_dim = getattr(args, "encoder_ffn_embed_dim", 256 * 8)
     args.encoder_attention_heads = getattr(args, "encoder_attention_heads", 4)
     args.decoder_attention_heads = getattr(args, "decoder_attention_heads", 4)
     args.dropout = getattr(args, "dropout", 0.1)
     base_architecture(args)
+
+@register_model_architecture("p2t_transformer", "p2t_transformer_s_enc_6")
+def p2t_transformer_s_enc_6(args):
+    args.encoder_layers = getattr(args, 'encoder_layers', 6)
+    p2t_transformer_s(args)
+
+@register_model_architecture("p2t_transformer", "p2t_transformer_s_enc_0")
+def p2t_transformer_s_enc_0(args):
+    args.encoder_layers = getattr(args, 'encoder_layers', 0)
+    p2t_transformer_s(args)
