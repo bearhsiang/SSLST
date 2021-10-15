@@ -1,8 +1,8 @@
 fairseq_root=fairseq
 
 data_root=data
-dataset=must-c_en_de
-wav_dir=/hdd/must-c_en_de-wav
+dataset=covost_en_de_wav
+wav_dir=/hdd/covost_en_de-wav-16k
 
 
 AUDIO_KEY=audio
@@ -20,7 +20,8 @@ out_dataset=${dataset}-s2u_${type}_${n_cluster}_$layer
 
 mkdir -p $data_root/$out_dataset/tmp
 
-for split in train dev tst-COMMON tst-HE; do
+# for split in train dev tst-COMMON tst-HE; do
+for split in dev test train; do
 
     mkdir -p $data_root/$out_dataset/tmp/manifest/$split
 
@@ -69,7 +70,8 @@ spm_train \
     --character_coverage 1 \
     --model_type char
 
-for split in train dev tst-COMMON tst-HE; do
+# for split in train dev tst-COMMON tst-HE; do
+for split in train dev test; do
     spm_encode \
         --model $data_root/$out_dataset/spm-$TGT_LANG.model \
         < $data_root/$out_dataset/$split.$TGT_LANG \
@@ -81,5 +83,5 @@ fairseq-preprocess \
     -t spm.$TGT_LANG \
     --trainpref $data_root/$out_dataset/train \
     --validpref $data_root/$out_dataset/dev \
-    --testpref $data_root/$out_dataset/tst-HE,$data_root/$out_dataset/tst-COMMON \
+    --testpref $data_root/$out_dataset/test \
     --destdir data-bin/$out_dataset
