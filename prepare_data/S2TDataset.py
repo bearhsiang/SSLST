@@ -3,7 +3,7 @@ from torch.utils import data
 from pathlib import Path
 
 @dataclass
-class DataItem:
+class Item:
 
     audio: str
     src_text: str
@@ -27,5 +27,5 @@ class Dataset(data.Dataset):
     def __len__(self):
         raise NotImplementedError
 
-    def __getitem__(self, id: int) -> DataItem:
+    def __getitem__(self, id: int) -> Item:
         raise NotImplementedError

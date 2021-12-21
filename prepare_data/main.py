@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 import csv
+from tqdm.auto import tqdm
 
 def get_args():
 
@@ -14,7 +15,7 @@ def get_args():
     parser.add_argument('-v', '--split', help = "process all the splits if not set.")
     parser.add_argument('-s', '--src-lang')
     parser.add_argument('-t', '--tgt-lang')
-    parser.add_argument('-o', '--output-dir', default='data/tsv')
+    parser.add_argument('-o', '--output-root', default='data/tsv')
     
     args = parser.parse_args()
     
@@ -26,7 +27,7 @@ def main():
     dataset_cls = datasets[args.dataset]
     splits = [args.split] if args.split else dataset_cls.get_splits()
 
-    output_dir = Path(args.output_dir) / f'{dataset_cls.get_name()}-{args.src_lang}-{args.tgt_lang}'
+    output_dir = Path(args.output_root) / f'{dataset_cls.get_name()}-{args.src_lang}-{args.tgt_lang}'
     output_dir.mkdir(parents=True, exist_ok=True)
 
     for split in splits:
@@ -38,7 +39,7 @@ def main():
             args.tgt_lang,
         )
 
-        data = [item for item in dataset]
+        data = [item for item in tqdm(dataset)]
         df = pd.DataFrame(data)
 
         df.to_csv(

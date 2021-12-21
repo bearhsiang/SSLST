@@ -6,8 +6,11 @@ import pandas as pd
 import csv
 
 @dataclass
-class DataItem(S2TDataset.DataItem):
+class Item:
 
+    path: str
+    sentence: str
+    translation: str
     client_id: str
 
 class Dataset(S2TDataset.Dataset):
@@ -23,27 +26,25 @@ class Dataset(S2TDataset.Dataset):
             delimiter='\t',
             quoting=csv.QUOTE_NONE,
         )
+        # drop samples contain REMOVE
+        self.raw_data = self.raw_data[~self.raw_data['translation'].astype(str).str.contains('REMOVE')]
 
     @classmethod
     def get_name(cls):
+
         return cls._name
 
     @classmethod
     def get_splits(cls):
+
         return cls._splits
 
     def __len__(self):
+
         return len(self.raw_data)
 
-    def __getitem__(self, id: int) -> DataItem:
-        
-        item = self.raw_data.iloc[id]
+    def __getitem__(self, id: int) -> Item:
 
-        return DataItem(
-            audio = item['path'],
-            src_text = item['sentence'],
-            tgt_text = item['translation'],
-            client_id = item['client_id'],
-        )
+        return Item(**self.raw_data.iloc[id]) 
     
 

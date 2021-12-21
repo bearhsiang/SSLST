@@ -3,14 +3,12 @@ import S2TDataset
 from pathlib import Path
 
 @dataclass
-class DataItem(S2TDataset.DataItem):
+class Item:
 
-    # From S2TDataset
-    # audio: str
-    # src_text: str
-    # tgt_text: str
+    audio: str
+    src_text: str
+    tgt_text: str
 
-    pass
 
 class Dataset(S2TDataset.Dataset):
 
@@ -22,7 +20,7 @@ class Dataset(S2TDataset.Dataset):
 
         self.data = []
         for i in range(10):
-            item = DataItem(
+            item = Item(
                 f'audio_{i}',
                 f'src_text_{i}',
                 f'tgt_text_{i}'
@@ -40,5 +38,5 @@ class Dataset(S2TDataset.Dataset):
     def __len__(self):
         return len(self.data)
 
-    def __getitem__(self, id: int) -> DataItem:
+    def __getitem__(self, id: int) -> Item:
         return self.data[id]
