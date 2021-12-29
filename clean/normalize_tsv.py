@@ -31,6 +31,8 @@ def main():
     if not args.force:
         assert not output_tsv.exists(), f'output file: {output_tsv} exists, use -f/--force to force overwrite'
 
+    output_tsv.parent.mkdir(parents=True, exist_ok=True)
+
     normalizer = sacremoses.MosesPunctNormalizer(
         lang=args.lang,
         pre_replace_unicode_punct=True,
@@ -62,9 +64,8 @@ def main():
         output_tsv,
         sep = '\t',
         quoting= csv.QUOTE_NONE,
+        index=False,
     )
-
-
 
 if __name__ == '__main__':
 

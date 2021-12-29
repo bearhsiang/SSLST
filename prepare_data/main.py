@@ -10,11 +10,11 @@ def get_args():
 
     parser = argparse.ArgumentParser()
     
-    parser.add_argument('-d', '--dataset', choices=datasets.keys())
-    parser.add_argument('-r', '--root-dir')
+    parser.add_argument('-d', '--dataset', choices=datasets.keys(), required=True)
+    parser.add_argument('-r', '--root-dir', required=True)
     parser.add_argument('-v', '--split', help = "process all the splits if not set.")
-    parser.add_argument('-s', '--src-lang')
-    parser.add_argument('-t', '--tgt-lang')
+    parser.add_argument('-s', '--src-lang', required = True)
+    parser.add_argument('-t', '--tgt-lang', required = True)
     parser.add_argument('-o', '--output-root', default='data/tsv')
     
     args = parser.parse_args()
