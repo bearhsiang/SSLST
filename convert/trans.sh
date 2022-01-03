@@ -13,7 +13,7 @@ tgt_bpe=data/s2t/libritrans-en-fr/normalized/bpe-tgt-char.model
 
 mkdir -p $output_dir
 
-for split in test; do
+for split in test dev train; do
     python convert/trans.py \
         --input-tsv $input_dir/$split.tsv \
         --output-prefix $output_dir/$split \
