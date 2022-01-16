@@ -15,7 +15,7 @@ class Dataset(S2TDataset.Dataset):
     _name = "libritrans"
     _splits = ['train', 'dev', 'test']
 
-    def __init__(self, data_root: Path, split: str, src_lang: str, tgt_lang: str):
+    def __init__(self, data_root: Path, split: str, src_lang: str, tgt_lang: str, gtrans: bool = True):
         super().__init__(data_root, split, src_lang, tgt_lang)
 
         meta_file = data_root / split / "alignments.meta"
@@ -31,7 +31,7 @@ class Dataset(S2TDataset.Dataset):
 
         with open(tgt_file, 'r') as f:
             tgt_texts = [line.strip() for line in f]
-        
+
         assert len(audio_files) == len(src_texts)
         assert len(src_texts) == len(tgt_texts)
 
@@ -39,6 +39,20 @@ class Dataset(S2TDataset.Dataset):
             Item(audio, src, tgt) 
             for audio, src, tgt in zip(audio_files, src_texts, tgt_texts)
         ]
+
+        if gtrans:
+
+            gtrans_file = data_root / split / f'{split}_gtranslate.{tgt_lang}'
+           
+            with open(gtrans_file, 'r') as f:
+                
+                gtrans_texts = [line.strip() for line in f]
+                assert len(gtrans_texts) == len(audio_files)
+
+                self.data += [
+                    Item(audio, src, trans)
+                    for audio, src, trans in zip(audio_files, src_texts, gtrans_texts)
+                ]
 
     @classmethod
     def get_name(cls):
