@@ -4,7 +4,7 @@ data_bin_root=data-bin
 output_root=/hdd/sslst_results
 
 name=libritrans-en-fr
-src_lang=en
+src_lang=hubert_km50_l6_simple
 tgt_lang=fr
 
 arch=transformer_iwslt_de_en

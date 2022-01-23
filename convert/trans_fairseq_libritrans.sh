@@ -4,7 +4,7 @@ data_root=data/trans
 data_bin_root=data-bin
 
 name=libritrans-en-fr
-src_lang=hubert_km50_l6_simple
+src_lang=en
 tgt_lang=fr
 
 data_dir=$data_root/$name/$src_lang-$tgt_lang

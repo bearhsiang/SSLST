@@ -20,20 +20,21 @@ def get_args():
     parser.add_argument('-k', '--keys', default='tgt_text')
     parser.add_argument('-o', '--output-prefix')
     parser.add_argument('-n', '--vocab-size', default=1000)
-    parser.add_argument('--model-type', default='char')
+    parser.add_argument('--model-type', default='char', choices=['unigram', 'bpe', 'char', 'word'])
+    parser.add_argument('--character-coverage', type=float, default=1.0)
     
     args = parser.parse_args()
 
     return args
 
-def create_sentencepiece(filenames, model_type, vocab_size, output_prefix):
+def create_sentencepiece(filenames, model_type, vocab_size, character_coverage, output_prefix):
 
     sp.SentencePieceTrainer.train(
         input=','.join(filenames),
         model_prefix=output_prefix,
         vocab_size=vocab_size,
         model_type=model_type,
-        character_coverage=1.0,
+        character_coverage=character_coverage,
         unk_id=UNK_TOKEN_ID,
         bos_id=BOS_TOKEN_ID,
         eos_id=EOS_TOKEN_ID,
@@ -60,11 +61,7 @@ def create_sentencepiece(filenames, model_type, vocab_size, output_prefix):
         for _, s in sorted(vocab.items(), key=lambda x: x[0]):
             print(f'{s} 1', file=f)
 
-def main():
-
-    args = get_args()
-
-    print(args)
+def main(args):
 
     input_dir = Path(args.input_dir)
     keys = args.keys.split(',')
@@ -75,7 +72,7 @@ def main():
             print(file)
             data = pd.read_csv(
                 file,
-                sep='\t',
+                delimiter='\t',
                 quoting=csv.QUOTE_NONE,
             )
 
@@ -87,9 +84,11 @@ def main():
             [temp_file.name],
             args.model_type,
             args.vocab_size,
-            args.output_prefix,
+            args.character_coverage,
+            args.output_prefix
         )
 
 if __name__ == '__main__':
 
-    main()
+    args = get_args()
+    main(args)

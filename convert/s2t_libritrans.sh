@@ -15,6 +15,7 @@ output_dir=$output_root/$name/raw
 python convert/s2t.py \
     -d $input_dir \
     -o $output_dir \
+    -i id \
     -a audio \
     -t tgt_text \
     -s src_text \

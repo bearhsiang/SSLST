@@ -6,7 +6,7 @@ output_dir=data/s2t/libritrans-en-fr/normalized
 src_lang=en
 tgt_lang=fr
 
-for split in train dev; do
+for split in train dev test; do
     # source text
     python clean/normalize_tsv.py \
         --normalize \
@@ -30,6 +30,6 @@ for split in train dev; do
     rm -rf $output_dir/.$split.tsv
 done
 
-for split in test; do
-    cp $input_dir/$split.tsv $output_dir/$split.tsv
-done
+# for split in test; do
+#     cp $input_dir/$split.tsv $output_dir/$split.tsv
+# done

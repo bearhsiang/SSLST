@@ -28,9 +28,7 @@ def apply_bpe_and_dump(df, key, bpe_model, output):
             return ' '.join(l)
         texts = texts.map(fn)
 
-    with open(output, 'w') as f:
-        for text in texts:
-            print(text, file=f)
+    texts.to_csv(output, sep='\n', header=False, index=False)
 
 def main(args):
 

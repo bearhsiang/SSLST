@@ -8,17 +8,20 @@ def get_args():
     parser.add_argument('-u', '--hidden-unit-file', required=True)
     parser.add_argument('-i', '--input-tsv', required=True)
     parser.add_argument('-o', '--output-tsv', required=True)
-    parser.add_argument('-k', '--key', default='id')
+    parser.add_argument('-k', '--key', default='audio')
+    parser.add_argument('-e', '--extension', default='wav')
     args = parser.parse_args()
     return args
 
-def read_hidden_unit_file(file):
+def read_hidden_unit_file(file, extension=None):
 
-    data = {'index': [], 'hidden_unit':[]}
+    data = {'audio': [], 'hidden_unit':[]}
     with open(file, 'r') as f:
         for line in f:
-            index, hidden_unit = line.strip().split('|')
-            data['index'].append(index)
+            audio, hidden_unit = line.strip().split('|')
+            if extension:
+                audio = f'{audio}.{extension}'
+            data['audio'].append(audio)
             data['hidden_unit'].append(hidden_unit)
     data = pd.DataFrame(data)
     return data
@@ -30,9 +33,10 @@ def main(args):
         delimiter='\t',
         quoting=csv.QUOTE_NONE,
     )
-    hidden_unit_data = read_hidden_unit_file(args.hidden_unit_file)
+    hidden_unit_data = read_hidden_unit_file(args.hidden_unit_file, args.extension)
+
     merged = data.set_index(args.key).join(
-        hidden_unit_data.set_index('index')
+        hidden_unit_data.set_index('audio')
     )
 
     merged.to_csv(
