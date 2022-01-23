@@ -5,6 +5,7 @@ from pathlib import Path
 @dataclass
 class Item:
 
+    id: str
     audio: str
     src_text: str
     tgt_text: str
@@ -36,7 +37,7 @@ class Dataset(S2TDataset.Dataset):
         assert len(src_texts) == len(tgt_texts)
 
         self.data = [
-            Item(audio, src, tgt) 
+            Item(Path(audio).stem, audio, src, tgt) 
             for audio, src, tgt in zip(audio_files, src_texts, tgt_texts)
         ]
 
@@ -50,7 +51,7 @@ class Dataset(S2TDataset.Dataset):
                 assert len(gtrans_texts) == len(audio_files)
 
                 self.data += [
-                    Item(audio, src, trans)
+                    Item(f'{Path(audio).stem}-g', audio, src, trans)
                     for audio, src, trans in zip(audio_files, src_texts, gtrans_texts)
                 ]
 
