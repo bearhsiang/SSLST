@@ -1,10 +1,10 @@
 import torch
 import torchaudio
-import torch.nn as nn
 from torch.utils import data
 import pandas as pd
 import csv
 from pathlib import Path
+import random
 
 SAMPLE_RATE = 16000
 
@@ -48,7 +48,7 @@ class AudioDataset(data.Dataset):
         self.resamplers = {}
     
     @classmethod
-    def from_tsv(cls, tsv_file, audio_key, audio_dir):
+    def from_tsv(cls, tsv_file, audio_key, audio_dir, frac=None):
 
         data = pd.read_csv(
             tsv_file,
@@ -57,6 +57,9 @@ class AudioDataset(data.Dataset):
         )
 
         audio_list = list(data[audio_key].unique())
+        
+        if frac:
+            audio_list = random.sample(audio_list, int(len(audio_list)*frac))
 
         return cls(audio_dir, audio_list)
 
