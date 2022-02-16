@@ -50,12 +50,12 @@ def main(args):
                 print('out of memory, using cpu')
                 wavs = [wav.cpu() for wav in wavs]
                 features = [feature.cpu() for feature in features]
-                extractor = extractor.to('cpu')
+                extractor.to('cpu')
                 features = extractor(wavs)[args.layer]
-                extractor = extractor.to(device)
+                extractor.to(device)
 
             for name, feature in zip(names, features):
-                feature = feature.numpy()
+                feature = feature.numpy().astype('float')
                 unit = km_model.predict(feature).tolist()
                 print(name.stem, " ".join([str(i) for i in unit]), sep='|', file=f)
 

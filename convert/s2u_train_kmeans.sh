@@ -1,11 +1,23 @@
 #!/usr/local/bin bash
 
+split=train
+layer=0
+model=fbank
+n_clusters=50
+bsz=5
+frac=0.01
+tsv=data/s2t/libritrans-en-fr/normalized/$split.tsv
+audio_dir=/hdd/libritrans/$split/audiofiles
+
+
 python convert/s2u_train_kmeans.py \
-    -u hubert \
-    -i data/s2t/libritrans-en-fr/normalized/test.tsv \
+    -u $model \
+    -i $tsv \
     -k audio \
-    -d /hdd/libritrans/test/audiofiles \
-    -l 6 \
-    -o tmp \
+    -d $audio_dir \
+    -l $layer \
+    -o data/kmeans_model/libritrans_en_fr-$split-$frac-$model-$layer-$n_clusters \
     -c \
-    -f 0.01
+    -f $frac \
+    -b $bsz \
+    -n $n_clusters

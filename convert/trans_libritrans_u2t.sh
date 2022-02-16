@@ -1,11 +1,9 @@
 #!/usr/local/bin bash
 
-hidden=hubert-50-simple-6
-
-input_dir=data/u2t/libritrans-en-fr/hubert-km50-l6-simple
+input_dir=data/u2t/libritrans-en-fr/libritrans_en_fr-train-0.01-hubert-6-50-simple
 src_key=hidden_unit
 tgt_key=tgt_text
-src_lang=hubert_km50_l6_simple
+src_lang=lt_0.1_hubert_6_50_simple
 tgt_lang=fr
 
 output_dir=data/trans/libritrans-en-fr/$src_lang-$tgt_lang

@@ -1,16 +1,13 @@
 #!/usr/local/bin bash
 
 name=libritrans-en-fr
-feature_type=hubert
-n_cluster=50
-layer=6
-mode=simple
-ext=wav
+km_model=libritrans_en_fr-train-0.01-hubert-6-50-simple
 
-hidden_input_dir=data/s2u/$name/$feature_type-$n_cluster-$layer-$mode
+hidden_input_dir=data/s2u/$name/$km_model
 tsv_input_dir=data/s2t/$name/normalized
 audio_key=audio
-output_dir=data/u2t/$name/$feature_type-$n_cluster-$mode-$layer
+output_dir=data/u2t/$name/$km_model
+ext=wav
 
 mkdir -p $output_dir
 

@@ -1,13 +1,13 @@
 #!/usr/local/bin bash
 
-data_root=data/trans
+data_root=data
 data_bin_root=data-bin
 
 name=libritrans-en-fr
-src_lang=hubert_km50_l6_simple
+src_lang=en
 tgt_lang=fr
 
-data_dir=$data_root/$name/$src_lang-$tgt_lang
+data_dir=$data_root/$name
 data_bin_dir=$data_bin_root/$name/$src_lang-$tgt_lang
 
 fairseq-preprocess \
