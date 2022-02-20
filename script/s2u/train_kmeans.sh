@@ -14,7 +14,7 @@ layer=6
 n_cluster=500
 nshard=5
 
-feat_dir=/hdd/ssl_feat/$dataset/ckpt_name/$layer
+feat_dir=/hdd/ssl_feat/$dataset/$ckpt_name/$layer
 
 ### create manifest
 echo "create manifest"
