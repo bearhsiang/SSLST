@@ -19,6 +19,9 @@ class Dataset(S2TDataset.Dataset):
     def __init__(self, data_root: Path, split: str, src_lang: str, tgt_lang: str, gtrans: bool = True):
         super().__init__(data_root, split, src_lang, tgt_lang)
 
+        self.src_lang = src_lang
+        self.tgt_lang = tgt_lang
+
         meta_file = data_root / split / "alignments.meta"
         src_file = data_root / split / f'{split}.{src_lang}'
         tgt_file = data_root / split / f'{split}.{tgt_lang}'
@@ -54,6 +57,11 @@ class Dataset(S2TDataset.Dataset):
                     Item(f'{Path(audio).stem}-g', audio, src, trans)
                     for audio, src, trans in zip(audio_files, src_texts, gtrans_texts)
                 ]
+
+
+
+    def name(self):
+        return f'{self._name}-{self.src_lang}-{self.tgt_lang}'
 
     @classmethod
     def get_name(cls):

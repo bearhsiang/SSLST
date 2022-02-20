@@ -24,6 +24,9 @@ class Dataset(data.Dataset):
     def get_splits(cls):
         raise NotImplementedError
 
+    def name(self):
+        raise NotImplementedError
+
     def __len__(self):
         raise NotImplementedError
 

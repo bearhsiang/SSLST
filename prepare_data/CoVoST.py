@@ -22,6 +22,9 @@ class Dataset(S2TDataset.Dataset):
         super().__init__(data_root, split, src_lang, tgt_lang)
 
         tsv_file = data_root / f'covost_v2.{src_lang}_{tgt_lang}.{split}.tsv'
+        self.src_lang = src_lang
+        self.tgt_lang = tgt_lang
+
         self.raw_data = pd.read_csv(tsv_file, 
             delimiter='\t',
             quoting=csv.QUOTE_NONE,
@@ -29,14 +32,15 @@ class Dataset(S2TDataset.Dataset):
         # drop samples contain REMOVE
         self.raw_data = self.raw_data[~self.raw_data['translation'].astype(str).str.contains('REMOVE')]
 
+    def name(self):
+        return f'{self._name}-{self.src_lang}-{self.tgt_lang}'
+
     @classmethod
     def get_name(cls):
-
         return cls._name
 
     @classmethod
     def get_splits(cls):
-
         return cls._splits
 
     def __len__(self):

@@ -11,11 +11,10 @@ hubert_root=/home/sean/Desktop/SSLST/fairseq/examples/hubert
 ckpt_path=data/ssl_models/hubert_base_ls960.pt
 ckpt_name=hubert
 layer=6
-km=500
+n_cluster=500
 nshard=5
 
-name=${ckpt_name}_l${layer}_km${km}
-feat_dir=/hdd/ssl_feat/$ckpt_name-$layer
+feat_dir=/hdd/ssl_feat/$dataset/ckpt_name/$layer
 
 ### create manifest
 echo "create manifest"
@@ -30,13 +29,27 @@ else
 fi
 
 ### dump features
-# for rank in `seq 0 $((nshard-1))`; do
-#     python $hubert_root/simple_kmeans/dump_hubert_feature.py \
-#         $data_root/$dataset/manifest \
-#         $split \
-#         $ckpt_path \
-#         $layer \
-#         $nshard \
-#         $rank \
-#         $feat_dir
-# done
+for rank in `seq 0 $((nshard-1))`; do
+    if [ -f $feat_dir/${split}_${rank}_${nshard}.npy ] && [ -f $feat_dir/${split}_${rank}_${nshard}.len ]; then
+        echo $feat_dir/${split}_${rank}_${shard}.[npy,len] exist, skip
+    else
+        python $hubert_root/simple_kmeans/dump_hubert_feature.py \
+            $data_root/$dataset/manifest \
+            $split \
+            $ckpt_path \
+            $layer \
+            $nshard \
+            $rank \
+            $feat_dir
+    fi
+done
+
+km_path=$data_root/kmeans_model/$ckpt_name-$dataset-$split-L$layer-km$n_cluster.bin
+
+python $hubert_root/simple_kmeans/learn_kmeans.py \
+    $feat_dir \
+    $split \
+    $nshard \
+    $km_path \
+    $n_cluster
+    --percent 0.1

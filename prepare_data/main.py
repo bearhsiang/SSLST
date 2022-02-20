@@ -1,7 +1,6 @@
 import argparse
 from datasets import datasets
 from pathlib import Path
-
 import pandas as pd
 import csv
 from tqdm.auto import tqdm
@@ -13,8 +12,8 @@ def get_args():
     parser.add_argument('-d', '--dataset', choices=datasets.keys(), required=True)
     parser.add_argument('-r', '--root-dir', required=True)
     parser.add_argument('-v', '--split', help = "process all the splits if not set.")
-    parser.add_argument('-s', '--src-lang', required = True)
-    parser.add_argument('-t', '--tgt-lang', required = True)
+    parser.add_argument('-s', '--src-lang')
+    parser.add_argument('-t', '--tgt-lang')
     parser.add_argument('-o', '--output-root', default='data/tsv')
     
     args = parser.parse_args()
@@ -27,9 +26,6 @@ def main():
     dataset_cls = datasets[args.dataset]
     splits = [args.split] if args.split else dataset_cls.get_splits()
 
-    output_dir = Path(args.output_root) / f'{dataset_cls.get_name()}-{args.src_lang}-{args.tgt_lang}'
-    output_dir.mkdir(parents=True, exist_ok=True)
-
     for split in splits:
         
         dataset = dataset_cls(
@@ -38,6 +34,9 @@ def main():
             args.src_lang,
             args.tgt_lang,
         )
+
+        output_dir = Path(args.output_root) / dataset.name()
+        output_dir.mkdir(parents=True, exist_ok=True)
 
         data = [item for item in tqdm(dataset)]
         df = pd.DataFrame(data)
