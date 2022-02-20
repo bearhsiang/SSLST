@@ -28,7 +28,7 @@ class Dataset(S2TDataset.Dataset):
 
         with open(meta_file, 'r') as f:
             f.readline()
-            audio_files = [f'{line.split()[4]}.wav' for line in f]
+            audio_files = [f'{split}/audiofiles/{line.split()[4]}.wav' for line in f]
         
         with open(src_file, 'r') as f:
             src_texts = [line.strip() for line in f]
