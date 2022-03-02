@@ -1,32 +1,27 @@
 #!/usr/local/bin bash
 
-mose_root=mosesdecoder
-
 dataset=libritrans-en-fr
-data_root=data
 src_key=src_text
 tgt_key=tgt_text
 src_lang=en
 tgt_lang=fr
 
-tmp_dir=$data_root/$dataset/tmp
-data_dir=$data_root/$dataset
-tsv_dir=$data_root/tsv/$dataset
+tmp_dir=$sslst_data_root/$dataset/tmp
 
-cleaner=$mose_root/scripts/tokenizer
-filter=$mose_root/scripts/training
+cleaner=$sslst_mosesdecoder_root/scripts/tokenizer
+filter=$sslst_mosesdecoder_root/scripts/training
 
 bpe=8000
 
 for split in test dev train; do
     
     python utils_new/extract_tsv_field.py \
-        --input $tsv_dir/$split.tsv \
+        --input $sslst_data_root/tsv/$split.tsv \
         --key $src_key \
         --output $tmp_dir/$split.raw.$src_lang
 
     python utils_new/extract_tsv_field.py \
-        --input $tsv_dir/$split.tsv \
+        --input $sslst_data_root/tsv/$split.tsv \
         --key $tgt_key \
         --output $tmp_dir/$split.raw.$tgt_lang
 
@@ -71,7 +66,7 @@ for lang in $src_lang $tgt_lang; do
             --model $tmp_dir/$lang-$bpe.model \
             --output_format=piece \
             < $tmp_dir/$split.filtered.$lang \
-            > $data_dir/$split.$lang
+            > $sslst_data_root/$dataset/$split.$lang
 
     done
     
