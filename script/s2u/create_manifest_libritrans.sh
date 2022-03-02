@@ -1,5 +1,7 @@
 #!/usr/local/bin bash 
 
+source script/setup.sh
+
 dataset=libritrans-en-fr
 splits="train dev test"
 audio_key=audio
