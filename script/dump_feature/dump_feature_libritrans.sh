@@ -1,8 +1,9 @@
 #!/usr/local/bin bash
 
-dataset=librispeech
-data_root=data
-feat_root=/ssd/ssl_feat
+source script/setup.sh
+
+dataset=libritrans-en-fr
+format=collect
 
 # model=modified_cpc
 model=$1
@@ -10,19 +11,20 @@ model=$1
 layer=$2
 nshard=5
 
-splits='train-clean-100'
+splits='train dev test'
 device='cuda'
 
 for split in $splits; do 
     for rank in `seq 0 $((nshard -1))`; do
         python utils_new/dump_features.py \
-            --manifest $data_root/$dataset/manifest \
+            --manifest $sslst_data_root/$dataset/manifest \
             --split $split \
             --model $model \
             --layer $layer \
             --nshard $nshard \
             --rank $rank \
             --device $device \
-            --output-dir $feat_root/$dataset/$model/$layer
+            --output-dir $sslst_feat_root/$dataset/$model/$layer \
+            --format $format
     done
 done

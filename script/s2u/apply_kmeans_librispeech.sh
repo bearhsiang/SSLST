@@ -1,7 +1,7 @@
 #!/usr/local/bin bash 
 
 dataset=librispeech
-splits="test-clean"
+splits="train-clean-100"
 audio_key=audio
 librispeech_root=/hdd/LibriSpeech
 model_path=data/ssl_models/hubert_base_ls960.pt

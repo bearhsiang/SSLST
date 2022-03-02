@@ -27,7 +27,7 @@ eval set -- $PARSED
 
 data_root=data
 tsv_root=$data_root/tsv
-feat_root=/hdd/ssl_feat
+feat_root=/ssd/ssl_feat
 nshard=5
 hubert_root=/home/sean/Desktop/SSLST/fairseq/examples/hubert
 
