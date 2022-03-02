@@ -53,10 +53,10 @@ done
 for lang in $src_lang $tgt_lang; do
 
     spm_train \
-        --input $tmp_dir/train.filtered.$lang \
-        --model_prefix $tmp_dir/$lang-$bpe \
-        --vocab_size $bpe \
-        --character_coverage 1
+        --input=$tmp_dir/train.filtered.$lang \
+        --model_prefix=$tmp_dir/$lang-$bpe \
+        --vocab_size=$bpe \
+        --character_coverage=1
 
 done
 
@@ -65,7 +65,7 @@ for lang in $src_lang $tgt_lang; do
     for split in dev test train; do
 
         spm_encode \
-            --model $tmp_dir/$lang-$bpe.model \
+            --model=$tmp_dir/$lang-$bpe.model \
             --output_format=piece \
             < $tmp_dir/$split.filtered.$lang \
             > $sslst_data_root/$dataset/$split.$lang
