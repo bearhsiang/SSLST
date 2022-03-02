@@ -7,8 +7,7 @@ dataset_root=$sslst_librispeech_root
 split=train-clean-100
 key=audio
 
-hubert_root=/home/sean/Desktop/SSLST/fairseq/examples/hubert
-# ckpt_path=data/ssl_models/hubert_base_ls960.pt
+hubert_root=$sslst_fairseq_root/examples/hubert
 model=hubert
 layer=6
 n_cluster=500
