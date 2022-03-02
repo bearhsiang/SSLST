@@ -1,5 +1,7 @@
 #!/usr/local/bin bash
 
+source script/setup.sh
+
 dataset=libritrans-en-fr
 src_key=src_text
 tgt_key=tgt_text
