@@ -18,12 +18,12 @@ bpe=8000
 for split in test dev train; do
     
     python utils_new/extract_tsv_field.py \
-        --input $sslst_data_root/tsv/$split.tsv \
+        --input $sslst_data_root/tsv/$dataset/$split.tsv \
         --key $src_key \
         --output $tmp_dir/$split.raw.$src_lang
 
     python utils_new/extract_tsv_field.py \
-        --input $sslst_data_root/tsv/$split.tsv \
+        --input $sslst_data_root/tsv/$dataset/$split.tsv \
         --key $tgt_key \
         --output $tmp_dir/$split.raw.$tgt_lang
 
