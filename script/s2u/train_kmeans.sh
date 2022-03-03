@@ -13,6 +13,7 @@ layer=6
 n_cluster=500
 nshard=5
 format=collect
+device=cuda
 
 feat_dir=$sslst_feat_root/$dataset/$model/$layer
 
