@@ -8,6 +8,7 @@ from npy_append_array import NpyAppendArray
 import logging
 import os
 import sys
+import numpy as np
 
 S3PRL_SR = 16000
 
@@ -30,12 +31,12 @@ def get_args():
     parser.add_argument('--rank', type=int)
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--output-dir')
-    parser.add_argument('--format', choices=['seperate', 'collect'])
+    parser.add_argument('--format', choices=['seperate', 'collect'], default='collect')
     args = parser.parse_args()
 
     return args
 
-def get_features(model, layer, device, audio_dir, audio_files):
+def get_features(model, layer, device, audio_dir, audio_files, get_path=False):
 
     for audio_file, n_frames in tqdm(audio_files):
 
@@ -48,7 +49,10 @@ def get_features(model, layer, device, audio_dir, audio_files):
             feat = model([torch.tensor(wav, dtype=torch.float).to(device)])
             feat = feat['hidden_states'][layer][0]
 
-        yield feat
+        if get_path:
+            yield feat, audio_dir / audio_file
+        else:
+            yield feat
 
 def main(args):
 
@@ -99,7 +103,13 @@ def main(args):
 
     elif args.format == 'seperate':
 
-        raise NotImplementedError
+        output_dir = output_dir / args.split
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        for feat, file_path in get_features(model, args.layer, args.device, audio_dir, audio_files, get_path=True):
+
+            output_path = output_dir / f'{file_path.stem}.npy'
+            np.save(output_path, feat.cpu().numpy())
 
 
 if __name__ == '__main__':
