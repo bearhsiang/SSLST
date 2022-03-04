@@ -1,5 +1,7 @@
 #!/usr/local/bin bash
 
+source script/setup.sh
+
 data_root=data
 name=libritrans-en-fr
 
