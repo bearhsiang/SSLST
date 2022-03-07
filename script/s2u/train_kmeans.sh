@@ -22,11 +22,11 @@ echo "create manifest"
 if [ ! -f "$sslst_data_root/$dataset/manifest/$split.tsv" ]; then
     python utils_new/create_fs_manifest.py \
         --audio-root $dataset_root \
-        --tsv-file $tsv_root/$dataset/$split.tsv \
+        --tsv-file $sslst_data_root/tsv/$dataset/$split.tsv \
         --key $key \
-        --output $data_root/$dataset/manifest/$split.tsv
+        --output $sslst_data_root/$dataset/manifest/$split.tsv
 else
-    echo "$data_root/$dataset/manifest/$split.tsv exists, skip"
+    echo "$sslst_data_root/$dataset/manifest/$split.tsv exists, skip"
 fi
 
 ### dump features
