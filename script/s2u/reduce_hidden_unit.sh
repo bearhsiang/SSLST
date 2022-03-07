@@ -1,20 +1,21 @@
 #!/usr/local/bin bash
 
-data_root=data
+source script/setup.sh
+
 dataset=libritrans-en-fr
-suffix=hubert_l9_km500
+suffix=hubert_l9_km100
 splits="train dev test"
-mode=addN
+mode=simple
 
 for split in $splits; do
     python utils_new/reduce_hidden_unit.py \
-        -i $data_root/$dataset/$split.$suffix \
-        -o $data_root/$dataset/$split.${suffix}_${mode} \
+        -i $sslst_data_root/$dataset/$split.$suffix \
+        -o $sslst_data_root/$dataset/$split.${suffix}_${mode} \
         -m $mode
-    echo finish reducing $data_root/$dataset/$split.$suffix, first example:
+    echo finish reducing $sslst_data_root/$dataset/$split.$suffix, first example:
     echo "<<"
-    head $data_root/$dataset/$split.$suffix -n 1
+    head $sslst_data_root/$dataset/$split.$suffix -n 1
     echo ">>"
-    head $data_root/$dataset/$split.${suffix}_${mode} -n 1
+    head $sslst_data_root/$dataset/$split.${suffix}_${mode} -n 1
     echo "---"
 done

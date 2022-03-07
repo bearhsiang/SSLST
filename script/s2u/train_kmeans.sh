@@ -8,9 +8,9 @@ split=train-clean-100
 key=audio
 
 hubert_root=$sslst_fairseq_root/examples/hubert
-model=hubert
-layer=6
-n_cluster=500
+model=$1
+layer=$2
+n_cluster=$3
 nshard=5
 format=collect
 device=cuda
