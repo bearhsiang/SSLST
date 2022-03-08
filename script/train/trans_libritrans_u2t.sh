@@ -4,8 +4,8 @@ source script/setup.sh
 
 dataset=libritrans-en-fr
 wandb_name=sslst-libritrans-en-fr
-src_lang=hubert_l9_km100_simple
-tgt_lang=fr
+src_lang=$1
+tgt_lang=$2
 
 arch=transformer_iwslt_de_en
 
@@ -25,7 +25,6 @@ fairseq-train \
     --max-target-positions 512 \
     --eval-bleu \
     --eval-bleu-args '{"beam": 5, "max_len_a": 0, "max_len_b": 256}' \
-    --eval-bleu-detok moses \
     --eval-bleu-remove-bpe sentencepiece \
     --eval-bleu-print-samples \
     --best-checkpoint-metric bleu --maximize-best-checkpoint-metric \
@@ -40,5 +39,6 @@ fairseq-train \
     # --patience 10 
     # --max-source-positions 4096 \
     # --skip-invalid-size-inputs-valid-test \
+    # --eval-bleu-detok moses \
 
 
