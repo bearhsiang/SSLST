@@ -15,6 +15,7 @@ fairseq-train \
     $data_dir \
     --source-lang $src_lang --target-lang $tgt_lang \
     --arch $arch \
+    --max-update 100000 \
     --save-dir $sslst_output_root/$dataset/$arch-$src_lang-$tgt_lang-f8 \
     --optimizer adam --adam-betas '(0.9, 0.98)' --clip-norm 0.0 \
     --lr 1e-4 --lr-scheduler inverse_sqrt --warmup-updates 4000 \
