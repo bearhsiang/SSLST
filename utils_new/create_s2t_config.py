@@ -7,10 +7,10 @@ def get_args():
     parser.add_argument('--vocab-filename', type=str)
     parser.add_argument('--bpe-model', type=str)
     parser.add_argument('--audio-root', type=str, default='')
-    parser.add_argument('--input-feat-per-channel', type=int, required=True)
+    parser.add_argument('--input-feat-per-channel', type=int)
     parser.add_argument('--use-audio-input', action='store_true', default=False)
     parser.add_argument('--output', required=True)
-    parser.add_argument('--shuffle', type=bool, default=False)
+    parser.add_argument('--shuffle', action='store_true', default=False)
     args = parser.parse_args()
 
     return args
