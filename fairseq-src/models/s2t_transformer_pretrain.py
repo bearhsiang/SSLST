@@ -72,6 +72,16 @@ class S2TTransformerModel_pt(S2TTransformerModel):
                     for w in ['weight', 'bias']:
                         for m in self_attn_proj + self_attn_ln + encoder_attn_proj + encoder_attn_ln + other:
                             load_state[f'layers.{l}.{m}.{w}'] = pt_state['model'][f'decoder.layers.{l}.{m}.{w}']
+                # embedding
+                embedding = ['embed_tokens', 'embed_positions']
+                for m in embedding:
+                    load_state[f'{m}.weight'] = pt_state['model'][f'decoder.{m}.weight']
+                
+                # layernorm embedding
+                for w in ['weight', 'bias']:
+                    load_state[f'layernorm_embedding.{w}'] = pt_state['model'][f'decoder.layernorm_embedding.{w}']
+
+                # share input output embedding ?
             else:
                 raise NotImplementedError
 
