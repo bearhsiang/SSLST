@@ -19,7 +19,9 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--prefix')
     parser.add_argument('--src-lang')
+    parser.add_argument('--src-lang-tag')
     parser.add_argument('--tgt-lang')
+    parser.add_argument('--tgt-lang-tag')
     parser.add_argument('--manifest')
     parser.add_argument('--feat-root')
     parser.add_argument('--split')
@@ -59,9 +61,12 @@ def main(args):
 
     if args.src_lang:
         df[KEY_SRC_TEXT] = [line.strip() for line in open(f'{args.prefix}.{args.src_lang}')]
+        if args.src_lang_tag:
+            df[KEY_SRC_LANG] = args.src_lang_tag
     if args.tgt_lang:
         df[KEY_TGT_TEXT] = [line.strip() for line in open(f'{args.prefix}.{args.tgt_lang}')]
-
+        if args.tgt_lang_tag:
+            df[KEY_TGT_LANG] = args.tgt_lang_tag
 
     df.to_csv(
         args.output, 
