@@ -34,7 +34,7 @@ fairseq-train \
     --wandb-project $wandb_name \
     --keep-last-epochs 3 \
     --update-freq 8 \
-    # --fp16
+    --fp16
 
 
 
