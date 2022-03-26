@@ -32,6 +32,8 @@ class Dataset(S2TDataset.Dataset):
         # drop samples contain REMOVE
         self.raw_data = self.raw_data[~self.raw_data['translation'].astype(str).str.contains('REMOVE')]
 
+        self.raw_data['path'] = f'{src_lang}/clips/' + self.raw_data['path']
+
     def name(self):
         return f'{self._name}-{self.src_lang}-{self.tgt_lang}'
 
