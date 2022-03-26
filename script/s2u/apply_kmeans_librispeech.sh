@@ -1,23 +1,26 @@
 #!/usr/local/bin bash 
 
+source script/setup.sh
+
 dataset=librispeech
-splits="train-clean-100"
+splits="train dev test"
 audio_key=audio
-librispeech_root=/hdd/LibriSpeech
-model_path=data/ssl_models/hubert_base_ls960.pt
-model_name=hubert
-layer=9
-km_model_path=data/kmeans_model/hubert_base_ls960_L9_km500.bin
-suffix=hubert_l9_km500
+
+model=$1
+layer=$2
+n_cluster=$3
+km_tag=ls
+
+km_model_path=$sslst_data_root/kmeans_model/$model-$km_tag-L$layer-km$n_cluster.bin
+suffix=${model}_l${layer}_${km_tag}${n_cluster}
 
 for split in $splits; do
     bash script/s2u/apply_kmeans.sh \
         --dataset $dataset \
         --split $split \
         --audio-key $audio_key \
-        --audio-root $librispeech_root \
-        --model-path $model_path \
-        --model-name $model_name \
+        --audio-root $sslst_librispeech_root \
+        --model $model \
         --layer $layer \
         --km-model-path $km_model_path \
         --suffix $suffix

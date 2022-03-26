@@ -2,10 +2,11 @@
 
 source script/setup.sh
 
-dataset=librispeech
-dataset_root=$sslst_librispeech_root
-split=train-clean-100
-key=audio
+dataset=covost2-de-en
+dataset_root=$sslst_covost2_data_root
+dataset_km_tag=cvde
+split=train
+key=path
 
 hubert_root=$sslst_fairseq_root/examples/hubert
 model=$1
@@ -47,7 +48,7 @@ for rank in `seq 0 $((nshard-1))`; do
     fi
 done
 
-km_path=$sslst_data_root/kmeans_model/$model-$dataset-$split-L$layer-km$n_cluster.bin
+km_path=$sslst_data_root/kmeans_model/$model-$dataset_km_tag-L$layer-km$n_cluster.bin
 
 python $hubert_root/simple_kmeans/learn_kmeans.py \
     $feat_dir \
