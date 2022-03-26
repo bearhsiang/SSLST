@@ -9,6 +9,7 @@ results/
 tsv/
 wandb/
 tmp*
+script/setup.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
