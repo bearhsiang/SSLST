@@ -1,0 +1,61 @@
+#!/usr/local/bin bash
+
+source script/setup.sh
+
+dataset=libritrans-en-fr
+src_lang=hubert_l9
+mid_lang=en
+tgt_lang=fr
+bpe=8000
+
+s2t_arch=s2t_transformer_s
+s2t_ckpt=$sslst_output_root/$dataset/$s2t_arch-$src_lang-$mid_lang/checkpoint_best.pt
+
+t2t_arch=transformer_iwslt_de_en
+t2t_ckpt=$sslst_output_root/$dataset/$t2t_arch-$mid_lang-$tgt_lang/checkpoint_best.pt
+
+tmp_dir=$sslst_data_root/$dataset/$src_lang-$mid_lang-$tgt_lang
+mkdir -p $tmp_dir
+
+# fairseq-generate \
+#     $sslst_data_root/$dataset/s2t-$src_lang-$mid_lang \
+#     --config-yaml config.yaml \
+#     --gen-subset test --task speech_to_text \
+#     --path $s2t_ckpt \
+#     --beam 5 \
+#     --max-len-a 0 \
+#     --max-len-b 256 \
+#     --max-source-positions 4096 \
+#     --scoring wer | tee $tmp_dir/s2t.out
+
+cat $tmp_dir/s2t.out | grep ^S | LC_ALL=C sort -V | cut -f2- > $tmp_dir/s2t.$src_lang
+cat $tmp_dir/s2t.out | grep ^D | LC_ALL=C sort -V | cut -f3- > $tmp_dir/s2t.$mid_lang
+
+spm_model=$sslst_data_root/$dataset/tmp/$mid_lang-$bpe.model
+
+spm_encode \
+    --model=$spm_model \
+    --output_format=piece \
+    < $tmp_dir/s2t.$mid_lang \
+    > $tmp_dir/s2t.spm.$mid_lang
+
+cp $sslst_data_root/$dataset/test.$tgt_lang $tmp_dir/s2t.spm.$tgt_lang
+
+fairseq-preprocess \
+    -s $mid_lang \
+    -t $tgt_lang \
+    --testpref $tmp_dir/s2t.spm \
+    --destdir $tmp_dir/data-bin \
+    --srcdict $sslst_data_bin_root/$dataset/$mid_lang-$tgt_lang/dict.$mid_lang.txt \
+    --tgtdict $sslst_data_bin_root/$dataset/$mid_lang-$tgt_lang/dict.$tgt_lang.txt \
+    --workers 4
+
+fairseq-generate \
+    $tmp_dir/data-bin \
+    --gen-subset test \
+    --path $t2t_ckpt \
+    --beam 5 \
+    --max-len-a 1.5 \
+    --max-len-b 20 \
+    --scoring sacrebleu \
+    --remove-bpe sentencepiece

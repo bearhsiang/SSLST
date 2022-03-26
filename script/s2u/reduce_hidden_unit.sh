@@ -2,10 +2,11 @@
 
 source script/setup.sh
 
-dataset=libritrans-en-fr
-suffix=hubert_l9_km100
+dataset=$1
+suffix=$2
+mode=$3
+
 splits="train dev test"
-mode=simple
 
 for split in $splits; do
     python utils_new/reduce_hidden_unit.py \

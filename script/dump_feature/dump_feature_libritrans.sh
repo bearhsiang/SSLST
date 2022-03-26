@@ -3,11 +3,9 @@
 source script/setup.sh
 
 dataset=libritrans-en-fr
-format=collect
+format=seperate
 
-# model=modified_cpc
 model=$1
-# layer=1
 layer=$2
 nshard=5
 

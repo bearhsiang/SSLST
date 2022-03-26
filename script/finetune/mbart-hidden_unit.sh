@@ -4,12 +4,13 @@ source script/setup.sh
 
 mbart_root=$sslst_data_root/mbart.cc25.v2
 
-dataset=libritrans-en-fr
+dataset=$1
+src_lang=$2
+mbart_tgt_lang=$3
+
 splits='train dev test'
-src_lang=hubert_l9_km500_simple
 mode=random
 mbart_src_lang=${src_lang}_mbart_${mode}
-mbart_tgt_lang=fr_XX
 
 mapping_file=$sslst_data_root/$dataset/$src_lang-mbart.$mode
 
@@ -28,4 +29,5 @@ fairseq-preprocess \
     --testpref $sslst_data_root/$dataset/test \
     --destdir $sslst_data_bin_root/$dataset/mbart-${mbart_src_lang}-${mbart_tgt_lang} \
     --srcdict $mbart_root/dict.txt \
-    --tgtdict $mbart_root/dict.txt
+    --tgtdict $mbart_root/dict.txt \
+    --workers 4

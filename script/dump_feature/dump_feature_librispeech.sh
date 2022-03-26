@@ -5,10 +5,9 @@ source script/setup.sh
 dataset=librispeech
 format=collect
 
-# model=modified_cpc
 model=$1
-# layer=1
 layer=$2
+
 nshard=5
 
 splits='train-clean-100'

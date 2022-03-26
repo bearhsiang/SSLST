@@ -1,7 +1,6 @@
 import argparse
 from pathlib import Path
 import s3prl.hub as hub
-import soundfile as sf
 from tqdm.auto import tqdm
 import torch
 from npy_append_array import NpyAppendArray
@@ -9,8 +8,7 @@ import logging
 import os
 import sys
 import numpy as np
-
-S3PRL_SR = 16000
+import torchaudio
 
 logging.basicConfig(
     format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
@@ -32,17 +30,29 @@ def get_args():
     parser.add_argument('--device', default='cuda')
     parser.add_argument('--output-dir')
     parser.add_argument('--format', choices=['seperate', 'collect'], default='collect')
+    parser.add_argument('--sample-rate', type=int, default=16000)
     args = parser.parse_args()
 
     return args
 
-def get_features(model, layer, device, audio_dir, audio_files, get_path=False):
+def get_features(model, layer, device, audio_dir, audio_files, sample_rate, get_path=False):
+
+    resampler = {}
 
     for audio_file, n_frames in tqdm(audio_files):
 
-        wav, sr = sf.read(audio_dir/audio_file)
-        assert wav.shape[0] == int(n_frames)
-        assert sr == S3PRL_SR
+        wav, sr = torchaudio.load(audio_dir/audio_file)
+
+        if sr != sample_rate:
+            if sr not in resampler:
+                resampler[sr] = torchaudio.transforms.Resample(sr, sample_rate)
+            wav = resampler[sr](wav)
+            sr = sample_rate
+
+        wav = wav.mean(0)
+
+        assert len(wav) == int(n_frames)
+        assert sr == sample_rate
 
         with torch.no_grad():
 
@@ -94,7 +104,7 @@ def main(args):
         feat_f = NpyAppendArray(output_feat)
         len_f = open(output_len, 'w')
 
-        for feat in get_features(model, args.layer, args.device, audio_dir, audio_files):
+        for feat in get_features(model, args.layer, args.device, audio_dir, audio_files, args.sample_rate):
 
             feat_f.append(feat.cpu().numpy())
             print(feat.size(0), file=len_f)
@@ -106,7 +116,7 @@ def main(args):
         output_dir = output_dir / args.split
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        for feat, file_path in get_features(model, args.layer, args.device, audio_dir, audio_files, get_path=True):
+        for feat, file_path in get_features(model, args.layer, args.device, audio_dir, audio_files, args.sample_rate, get_path=True):
 
             output_path = output_dir / f'{file_path.stem}.npy'
             np.save(output_path, feat.cpu().numpy())

@@ -54,7 +54,8 @@ if [ ! -f $sslst_data_root/$dataset/manifest/$split.tsv ]; then
         --audio-root $audio_root \
         --tsv-file $sslst_data_root/tsv/$dataset/$split.tsv \
         --key $audio_key \
-        --output $sslst_data_root/$dataset/manifest/$split.tsv
+        --output $sslst_data_root/$dataset/manifest/$split.tsv \
+        --sample-rate $sslst_sample_rate 
 else
     echo "$sslst_data_root/$dataset/manifest/$split.tsv exists, skip..."
 fi
@@ -69,7 +70,8 @@ for rank in `seq 0 $((nshard-1))`; do
             --layer $layer \
             --nshard $nshard \
             --rank $rank \
-            --output-dir $sslst_feat_root/$dataset/$model/$layer
+            --output-dir $sslst_feat_root/$dataset/$model/$layer \
+            --sample-rate $sslst_sample_rate
     else
         echo $sslst_feat_root/$dataset/$model/$layer/${split}_${rank}_${nshard}.npy exist, skip
     fi
