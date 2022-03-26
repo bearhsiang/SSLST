@@ -15,4 +15,4 @@ fi
 python $sslst_covost_root/get_covost_splits.py \
   --version 2 --src-lang $src_lang --tgt-lang $tgt_lang \
   --root $sslst_covost2_tsv_root \
-  --cv-tsv $sslst_covost2_data_root/$sslst_cv_version/$src_lang/validated.tsv
+  --cv-tsv $sslst_covost2_data_root/$src_lang/validated.tsv
