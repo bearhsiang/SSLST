@@ -2,7 +2,7 @@
 
 source script/setup.sh
 
-dataset=libritrans-en-de
+dataset=libritrans-en-fr
 splits="train dev test"
 audio_key=audio
 
@@ -15,7 +15,7 @@ km_model_path=$sslst_data_root/kmeans_model/$model-$km_tag-L$layer-km$n_cluster.
 suffix=${model}_l${layer}_${km_tag}${n_cluster}
 
 for split in $splits; do
-    bash script/s2u/apply_kmeans.sh \
+    source script/s2u/apply_kmeans.sh \
         --dataset $dataset \
         --split $split \
         --audio-key $audio_key \
