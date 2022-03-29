@@ -11,9 +11,9 @@ export sslst_data_bin_root=/hdd/sslst_databin
 # dataset 
 export sslst_libritrans_root=/hdd/libritrans
 export sslst_librispeech_root=/hdd/LibriSpeech
-export sslst_covost2_tsv_root=/hdd/covost/tsv
-export sslst_covost2_data_root=/hdd/covost
 export sslst_cv_version=cv-corpus-8.0-2022-01-19
+export sslst_covost2_tsv_root=/hdd/covost/tsv
+export sslst_covost2_root=/hdd/covost/$sslst_cv_version
 
 # repo
 export sslst_mosesdecoder_root=~/Desktop/SSLST/mosesdecoder
