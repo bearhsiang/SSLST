@@ -26,4 +26,4 @@ fairseq-train \
     --wandb-project sslst-$name \
     --keep-last-epochs 3 \
     --reset-optimizer \
-    # --fp16
+    --fp16
