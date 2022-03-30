@@ -25,5 +25,4 @@ fairseq-train \
     --lr-scheduler inverse_sqrt --warmup-updates 10000 --clip-norm 10.0 --seed $sslst_seed --update-freq 16 \
     --wandb-project sslst-$name \
     --keep-last-epochs 3 \
-    --reset-optimizer \
     --fp16
