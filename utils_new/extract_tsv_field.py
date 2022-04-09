@@ -9,7 +9,7 @@ def get_args():
     parser.add_argument('-i', '--input', required=True)
     parser.add_argument('-k', '--key', required=True)
     parser.add_argument('-o', '--output', required=True)
-    parser.add_argument('--na-rep', default=" ")
+    parser.add_argument('--na-rep', default="[REMOVE]")
     args = parser.parse_args()
     
     return args
