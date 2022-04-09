@@ -9,6 +9,7 @@ def get_args():
     parser.add_argument('-i', '--input', required=True)
     parser.add_argument('-k', '--key', required=True)
     parser.add_argument('-o', '--output', required=True)
+    parser.add_argument('--na-rep', default=" ")
     args = parser.parse_args()
     
     return args
@@ -28,6 +29,7 @@ def main(args):
         header=False,
         sep='\t',
         quoting=csv.QUOTE_NONE,
+        na_rep=args.na_rep,
     )
 
 if __name__ == '__main__':

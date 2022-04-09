@@ -14,6 +14,9 @@ KEY_SRC_LANG, KEY_TGT_LANG = "src_lang", "tgt_lang"
 # default values
 DEFAULT_SPEAKER = DEFAULT_SRC_TEXT = DEFAULT_LANG = ""
 
+# s3prl
+KEY_SAMPLE_RATE = "sr"
+
 def get_args():
 
     parser = argparse.ArgumentParser()
@@ -26,6 +29,8 @@ def get_args():
     parser.add_argument('--feat-root')
     parser.add_argument('--split')
     parser.add_argument('--output')
+    parser.add_argument('--sample-rate', type=int)
+    parser.add_argument('--frame-ratio', type=float)
     args = parser.parse_args()
 
     return args
@@ -40,7 +45,7 @@ def main(args):
         for line in f:
             audio_file, n_frame = line.strip().split('\t')
             audio_files.append(audio_file)
-            n_frames.append(n_frame)
+            n_frames.append(int(n_frame))
     
     if args.feat_root:
         audio_root = Path(args.feat_root)
@@ -67,6 +72,12 @@ def main(args):
         df[KEY_TGT_TEXT] = [line.strip() for line in open(f'{args.prefix}.{args.tgt_lang}')]
         if args.tgt_lang_tag:
             df[KEY_TGT_LANG] = args.tgt_lang_tag
+
+    if args.sample_rate:
+        df[KEY_SAMPLE_RATE] = args.sample_rate
+
+    if args.frame_ratio:
+        df[KEY_N_FRAMES] = (df[KEY_N_FRAMES] * args.frame_ratio).astype('int')
 
     df.to_csv(
         args.output, 
