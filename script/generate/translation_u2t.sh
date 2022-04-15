@@ -10,6 +10,7 @@ arch=transformer_iwslt_de_en
 
 fairseq-generate \
     $sslst_data_bin_root/$dataset/$src_lang-$tgt_lang \
+    -s $src_lang -t $tgt_lang \
     --gen-subset test \
     --path $sslst_output_root/$dataset/$arch-$src_lang-$tgt_lang/checkpoint_best.pt \
     --beam 5 \
