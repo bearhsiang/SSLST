@@ -17,7 +17,7 @@ device=cuda
 hubert_root=$sslst_fairseq_root/examples/hubert
 feat_dir=$sslst_feat_root/$dataset/$model/$layer
 
-km_path=$sslst_data_root/kmeans_model/$model-$dataset_km_tag$percent-L$layer-km$n_cluster.bin
+km_path=$sslst_data_root/kmeans_model/$model-${dataset_km_tag}${percent}p-L$layer-km$n_cluster.bin
 
 if [ -f $km_path ]; then 
     echo km model: $km_path exists
