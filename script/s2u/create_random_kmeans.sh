@@ -8,7 +8,7 @@ n_cluster=500
 mean=0
 std=0.1
 seed=$sslst_seed
-output=$sslst_data_root/kmeans_model/random-D$dimM$meanS$std-km${n_cluster}.bin
+output=$sslst_data_root/kmeans_model/random-D${dim}M${mean}S${std}-km${n_cluster}.bin
 
 python utils_new/create_random_kmeans.py \
     -d $dim \
