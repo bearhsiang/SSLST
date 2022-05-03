@@ -26,7 +26,8 @@ fairseq-generate \
     --max-len-b 256 \
     --max-source-positions 4096 \
     --remove-bpe sentencepiece \
-    --scoring wer | tee $tmp_dir/u2t.out
+    --max-tokens 8192 \
+    --scoring wer 2>&1 | tee $tmp_dir/u2t.out
 
 cat $tmp_dir/u2t.out | grep ^S | LC_ALL=C sort -V | cut -f2- > $tmp_dir/u2t.$src_lang
 cat $tmp_dir/u2t.out | grep ^D | LC_ALL=C sort -V | cut -f3- > $tmp_dir/u2t.$mid_lang
@@ -58,4 +59,5 @@ fairseq-generate \
     --max-len-a 1.5 \
     --max-len-b 20 \
     --scoring sacrebleu \
-    --remove-bpe sentencepiece
+    --remove-bpe sentencepiece \
+    --max-tokens 8192

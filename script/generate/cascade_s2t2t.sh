@@ -2,10 +2,10 @@
 
 source script/setup.sh
 
-dataset=libritrans-en-fr
-src_lang=hubert_l9
-mid_lang=en
-tgt_lang=fr
+dataset=$1
+src_lang=$2
+mid_lang=$3
+tgt_lang=$4
 bpe=8000
 
 s2t_arch=s2t_transformer_s
@@ -17,16 +17,17 @@ t2t_ckpt=$sslst_output_root/$dataset/$t2t_arch-$mid_lang-$tgt_lang/checkpoint_be
 tmp_dir=$sslst_data_root/$dataset/$src_lang-$mid_lang-$tgt_lang
 mkdir -p $tmp_dir
 
-# fairseq-generate \
-#     $sslst_data_root/$dataset/s2t-$src_lang-$mid_lang \
-#     --config-yaml config.yaml \
-#     --gen-subset test --task speech_to_text \
-#     --path $s2t_ckpt \
-#     --beam 5 \
-#     --max-len-a 0 \
-#     --max-len-b 256 \
-#     --max-source-positions 4096 \
-#     --scoring wer | tee $tmp_dir/s2t.out
+fairseq-generate \
+    $sslst_data_root/$dataset/s2t-$src_lang-$mid_lang \
+    --config-yaml config.yaml \
+    --gen-subset test --task speech_to_text \
+    --path $s2t_ckpt \
+    --beam 5 \
+    --max-len-a 0 \
+    --max-len-b 256 \
+    --max-source-positions 4096 \
+    --max-tokens 8192 \
+    --scoring wer 2>&1 | tee $tmp_dir/s2t.out
 
 cat $tmp_dir/s2t.out | grep ^S | LC_ALL=C sort -V | cut -f2- > $tmp_dir/s2t.$src_lang
 cat $tmp_dir/s2t.out | grep ^D | LC_ALL=C sort -V | cut -f3- > $tmp_dir/s2t.$mid_lang
@@ -58,4 +59,5 @@ fairseq-generate \
     --max-len-a 1.5 \
     --max-len-b 20 \
     --scoring sacrebleu \
-    --remove-bpe sentencepiece
+    --remove-bpe sentencepiece \
+    --max-tokens 8192 
