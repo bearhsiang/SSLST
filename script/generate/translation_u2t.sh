@@ -19,5 +19,6 @@ fairseq-generate \
     --scoring sacrebleu \
     --max-source-positions 4096 \
     --remove-bpe sentencepiece \
+    --max-tokens 8192 \
     # --skip-invalid-size-inputs-valid-test
 

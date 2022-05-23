@@ -17,5 +17,6 @@ fairseq-generate \
     --max-len-a 0 \
     --max-len-b 256 \
     --scoring sacrebleu \
-    --max-source-positions 4096 \
+    --max-tokens 8192 \
+    --max-source-positions 8192 \
     # --skip-invalid-size-inputs-valid-test

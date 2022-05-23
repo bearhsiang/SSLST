@@ -2,11 +2,11 @@
 
 source script/setup.sh
 
-name=libritrans-en-fr
+name=$1
+src_lang=$2
+tgt_lang=$3
 
 arch=s2t_transformer_s
-src_lang=hubert_l9
-tgt_lang=fr
 
 fairseq-generate \
     $sslst_data_root/$name/s2t-$src_lang-$tgt_lang \
@@ -16,7 +16,7 @@ fairseq-generate \
     --beam 5 \
     --max-len-a 0 \
     --max-len-b 256 \
-    --max-source-positions 4096 \
-    --scoring sacrebleu
-
+    --scoring wer \
+    --max-tokens 8192 \
+    --max-source-positions 8192 \
     # --skip-invalid-size-inputs-valid-test
