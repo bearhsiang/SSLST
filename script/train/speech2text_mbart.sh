@@ -1,11 +1,11 @@
 
 source script/setup.sh
 
-name=libritrans-en-fr
+name=$1
+src_lang=$2
+tgt_lang=$3
 
 arch=s2t_transformer_mbart_large
-src_lang=hubert_l9
-tgt_lang=fr
 
 langs=ar_AR,cs_CZ,de_DE,en_XX,es_XX,et_EE,fi_FI,fr_XX,gu_IN,hi_IN,it_IT,ja_XX,kk_KZ,ko_KR,lt_LT,lv_LV,my_MM,ne_NP,nl_XX,ro_RO,ru_RU,si_LK,tr_TR,vi_VN,zh_CN
 
@@ -37,5 +37,4 @@ fairseq-train \
     --pt-decoder-path $pt_model_path \
     --pt-decoder-arch $pt_model_arch \
     --ignore-prefix-size 1 \
-    # --wandb-project sslst-$name \
-    # --fp16
+    --fp16

@@ -32,7 +32,7 @@ fairseq-train \
     --ddp-backend legacy_ddp \
     --fp16 \
     --eval-bleu \
-    --eval-bleu-args '{"beam": 5, "max_len_a": 1.2, "max_len_b": 20}' \
+    --eval-bleu-args '{"beam": 5, "max_len_a": 0, "max_len_b": 200}' \
     --eval-bleu-detok moses \
     --eval-bleu-remove-bpe sentencepiece \
     --eval-bleu-print-samples \
