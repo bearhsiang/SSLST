@@ -4,12 +4,12 @@ source script/setup.sh
 
 mbart_root=$sslst_data_root/mbart.cc25.v2
 
-dataset=covost2-de-en
-splits='train dev test'
-src_lang=de
-mbart_src_lang=de_DE
-tgt_lang=en
-mbart_tgt_lang=en_XX
+dataset=libritrans-en-fr-hr100
+splits="train dev test"
+src_lang=en
+mbart_src_lang=en_XX
+tgt_lang=fr
+mbart_tgt_lang=fr_XX
 
 for split in $splits; do
     spm_encode \
