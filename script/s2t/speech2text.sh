@@ -4,7 +4,7 @@ source script/setup.sh
 
 name=$1
 model_name=$2
-model_dim=$3 # hubert/wav2vec2: 768
+model_dim=$3 # hubert/wav2vec2/tera: 768, fbank: 240, cpc: 256
 layer=$4
 src_lang=$5
 tgt_lang=$6

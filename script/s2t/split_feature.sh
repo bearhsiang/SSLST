@@ -7,7 +7,9 @@ model_name=$2
 layer=$3
 nshard=5
 
-for split in train dev test; do
+splits="train dev test"
+
+for split in $splits; do
     python utils_new/split_feature.py \
         --feat-dir $sslst_feat_root/$name/$model_name/$layer \
         --split $split \

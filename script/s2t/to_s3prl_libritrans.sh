@@ -7,6 +7,8 @@ splits="train dev test"
 src_lang=en
 tgt_lang=fr
 audio_root=$sslst_libritrans_root
+sample_rate=16000
+frame_ratio=$(($sample_rate/$sslst_sample_rate))
 
 bpe=8000
 
@@ -22,7 +24,9 @@ for split in $splits; do
         --tgt-lang $tgt_lang \
         --manifest $orig_dir/manifest/$split.tsv \
         --split $split \
-        --output $dest_dir/$split.tsv
+        --output $dest_dir/$split.tsv \
+        --sample-rate $sample_rate \
+        --frame-ratio $frame_ratio
 done
 
 for lang in $src_lang $tgt_lang; do
