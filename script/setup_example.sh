@@ -3,8 +3,9 @@
 export sslst_seed=1
 export sslst_sample_rate=16000
 
-export sslst_data_root=/hdd/sslst_data
+# data dir
 export sslst_feat_root=/ssd/sslst_feat
+export sslst_data_root=/hdd/sslst_data
 export sslst_output_root=/hdd/sslst_results
 export sslst_data_bin_root=/hdd/sslst_databin
 
