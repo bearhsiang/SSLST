@@ -1,9 +1,12 @@
 #!/usr/local/bin bash
 
-libri_root=/hdd/LibriSpeech
-tsv_dir=data/tsv
+source script/setup.sh
+
+dataset=librispeech
+data_root=$sslst_librispeech_root
+output_root=$sslst_data_root/tsv
 
 python prepare_data/main.py \
-    -d librispeech \
-    -r $libri_root \
-    -o $tsv_dir
+    -d $dataset \
+    -r $data_root \
+    -o $output_root
