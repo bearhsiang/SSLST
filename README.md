@@ -39,6 +39,32 @@ Use `prepare_data/Example.py` as template to add new dataset, and it would be au
 
 ## Preprocessing
 
+### Text
+
+For all the text data, we do the following preprocessing steps.
+1. Normalize punctuations
+2. Remove unprintable characters
+3. Lowercase all the characters
+4. Build BPE tokenizer with size = 8000 and character coverage = 1
+
+To do the preprocessing
+1. Clone [mosesdecoder](https://github.com/moses-smt/mosesdecoder) and set `$sslst_mosesdecoder_root` in `script/setup.sh`.
+2. Run `bash script/t2t/[DATASET].sh` to do the preprocessing for the dataset you want to use.
+
+### Speech
+
+#### Speech to hidden unit
+
+1. Create manifest by `bash script/s2u/create_manifest_[DATASET].sh`
+2. Clone and install [Fairseq](https://github.com/facebookresearch/fairseq). Set `$sslst_fairseq_root` in `script/setup.sh`
+3. Train K-means model by `bash script/s2u/train_kmeans_simple.sh [DATASET] [KM_TAG] [SSL_MODEL] [LAYER] [N_CLUSTER] [PERCENTAGE]`. The kmeans model could be found as `$sslst_data_root/kmeans_model/[SSL_MODEL]-[KM_TAG][PERCENTAGE]p-L[LAYER]-km[N_CLUSTER].bin`, e.g. `data/kmeans_model/hubert-ls0.01p-L9-km500.bin`.
+4. Apply K-means model to SSL features by `bash script/s2u/apply_kmeans_simple.sh [DATASET] [SSL_MODEL] [LAYER] [N_CLUSTER] [KM_TAG]`. The results could be found as `$sslst_data_root/[DATASET]/[SPLIT].[SSL_MODEL]_l[LAYER]_[KM_TAG][N_CLUSTER]`, e.g. `data/libritrans-en-fr/dev.hubert_l9_ls0.01p500`
+5. (Optional) Do the reduction by `bash script/s2u/reduce_hidden_unit.sh [DATASET] [SUFFIX] [MODE]`.
+    
+    If `mode == simple`, simply combine the consecutive characters. (E.g. aaabb -> ab)
+    
+    If `mode == addN`, add the number of consecutive after the character. (E.g. aaabb -> a _3 b _2)
+
 ## Training
 
 ## Inference
