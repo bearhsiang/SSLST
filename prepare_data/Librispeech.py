@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from torch.utils import data
+import S2TDataset
 from pathlib import Path
 
 @dataclass
@@ -11,13 +11,13 @@ class Item:
     chapter: str
     transcript: str
 
-class Dataset(data.Dataset):
+class Dataset(S2TDataset.Dataset):
 
     _name = "librispeech"
     _splits = ['train-clean-100', 'dev-clean', 'test-clean']
 
     def __init__(self, data_root: Path, split: str, src_lang: str, tgt_lang: str):
-        super().__init__()
+        super().__init__(data_root, split, src_lang, tgt_lang)
 
         assert split in self.get_splits()
     
