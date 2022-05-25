@@ -50,6 +50,7 @@ For all the text data, we do the following preprocessing steps.
 To do the preprocessing
 1. Clone [mosesdecoder](https://github.com/moses-smt/mosesdecoder) and set `$sslst_mosesdecoder_root` in `script/setup.sh`.
 2. Run `bash script/t2t/[DATASET].sh` to do the preprocessing for the dataset you want to use.
+3. Use `script/t2t/fairseq_preprocess.sh` to binarize the data.
 
 ### Speech
 
@@ -57,13 +58,49 @@ To do the preprocessing
 
 1. Create manifest by `bash script/s2u/create_manifest_[DATASET].sh`
 2. Clone and install [Fairseq](https://github.com/facebookresearch/fairseq). Set `$sslst_fairseq_root` in `script/setup.sh`
-3. Train K-means model by `bash script/s2u/train_kmeans_simple.sh [DATASET] [KM_TAG] [SSL_MODEL] [LAYER] [N_CLUSTER] [PERCENTAGE]`. The kmeans model could be found as `$sslst_data_root/kmeans_model/[SSL_MODEL]-[KM_TAG][PERCENTAGE]p-L[LAYER]-km[N_CLUSTER].bin`, e.g. `data/kmeans_model/hubert-ls0.01p-L9-km500.bin`.
-4. Apply K-means model to SSL features by `bash script/s2u/apply_kmeans_simple.sh [DATASET] [SSL_MODEL] [LAYER] [N_CLUSTER] [KM_TAG]`. The results could be found as `$sslst_data_root/[DATASET]/[SPLIT].[SSL_MODEL]_l[LAYER]_[KM_TAG][N_CLUSTER]`, e.g. `data/libritrans-en-fr/dev.hubert_l9_ls0.01p500`
-5. (Optional) Do the reduction by `bash script/s2u/reduce_hidden_unit.sh [DATASET] [SUFFIX] [MODE]`.
+3. Train K-means model.
+    ```bash
+    bash script/s2u/train_kmeans_simple.sh [DATASET] [KM_TAG] [SSL_MODEL] [LAYER] [N_CLUSTER] [PERCENTAGE]
+    ``` 
+
+    The kmeans model could be found as `$sslst_data_root/kmeans_model/[SSL_MODEL]-[KM_TAG][PERCENTAGE]p-L[LAYER]-km[N_CLUSTER].bin`, e.g. `data/kmeans_model/hubert-ls0.01p-L9-km500.bin`.
+
+4. Dump SSL features and apply K-means clustering,
+    ```bash
+    bash script/s2u/apply_kmeans_simple.sh [DATASET] [SSL_MODEL] [LAYER] [N_CLUSTER] [KM_TAG]
+    ```
+
+    The results could be found as `$sslst_data_root/[DATASET]/[SPLIT].[SSL_MODEL]_l[LAYER]_[KM_TAG][N_CLUSTER]`, e.g. `data/libritrans-en-fr/dev.hubert_l9_ls0.01p500`.
     
-    If `mode == simple`, simply combine the consecutive characters. (E.g. aaabb -> ab)
+    The dump SSL features are in `$sslst_feat_root/[DATASET]/[SSL_MODELS]/[LAYER]`
+
+5. (Optional) Do the reduction.
+    ```bash
+    bash script/s2u/reduce_hidden_unit.sh [DATASET] [SUFFIX] [MODE]
+    ```
     
-    If `mode == addN`, add the number of consecutive after the character. (E.g. aaabb -> a _3 b _2)
+    If `mode == simple`, it simply combines the consecutive characters. (E.g. aaabb -> ab)
+    
+    If `mode == addN`, it will add the number of consecutive after the character. (E.g. aaabb -> a _3 b _2)
+
+6. Use `script/t2t/fairseq_preprocess.sh` to binarize the data.
+
+#### Speech to text
+
+1. Dump the ssl features.
+    ```bash 
+    bash script/dump_feature.sh [DATASET] [SSL_MODEL] [LAYER] seperate
+    ```
+
+    If you have already ran the speech to hidden unit script, you could simply split those features.
+    ```bash
+    bash script/s2t/split_feature.sh [DATASET] [SSL_MODEL] [LAYER]
+    ```
+
+2. Create Speech-to-Text task configuration
+    ```bash
+    bash script/s2t/speech2text.sh [DATASET] [SSL_MODEL] [SSL_DIM] [LAYER] [SRC_LANG] [TGT_LANG]
+    ```
 
 ## Training
 
