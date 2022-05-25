@@ -1,38 +1,26 @@
 # SSLST
 
-## Modules
+## Get data
 
-### prepare_data
+The speech dataset will be processed into tsv files. This repo default supports three common dataset, e.g. librispeech, libritrans and covost2, and also allow you to add new dataset.
 
-convert the public datasets to unified tsv format, each subset (e.g. train, dev, test, ...) belongs to different tsv files.
+### To prepare supported dataset
 
-```
-+-- data
-    +-- covost2-en-de
-        +-- raw
-            +-- train.tsv
-            +-- dev.tsv
-            +-- test.tsv
-        +-- normalized
-            +-- ...
-    +-- MustC-en-de
-        +-- raw
-            +-- train.tsv
-            +-- dev.tsv
-            +-- tst-COMMON.tsv
-            +-- tst-HE.tsv
-```
+* Librispeech
+1. Download Librispeech from [Official website](https://www.openslr.org/12).
+We set `train-clean-100`, `dev-clean`, `test-clean` as default splits, modifying `prepare_data/Librispeech.py` to change this setting.
+2. Set `$sslst_librispeech_root` in `script/setup.sh`
+3. Run `bash prepare_data/librispeech.sh`
 
-### convert
 
-convert the unified tsv format to official toolkit input format. (e.g. fairseq, ...)
+* Libritrans
+1. Download Libritrans from [this repo](https://github.com/alicank/Translation-Augmented-LibriSpeech-Corpus)
+1. Set `$sslst_libritrans_root` in `script/setup.sh`
+2. Run `bash prepare_data/libritrans.sh`
 
-#### s2t
+* CoVoST2
+1. Download Common Voice from [Official Website](https://commonvoice.mozilla.org/en/datasets) and set `$sslst_cv_version` in `script/setup.sh`. You should choose the source language based on the translation direction. **Note that we use De -> En as default translation direction.**
+2. Clone [CoVoST](https://github.com/facebookresearch/covost) and set `$sslst_covost_root` and `$sslst_covost2_tsv_root` in `script/setup.sh`
+3. Run `bash prepare_data/pre_covost2.sh` and `bash prepare_data/covost2.sh`. 
 
-Convert the tsv file into fariseq Speech to Text format with required fields: `id`, `audio`, `n_frames`, `tgt_text`
-
-Reference: [fairseq/data/audio/speech_to_text_dataset.py](https://github.com/pytorch/fairseq/blob/ee177fc4fa06dcb3d5fd466559af1b46893c00e8/fairseq/data/audio/speech_to_text_dataset.py#L384-L392)
-
-### TODOs
-
-- [ ] n_frames in convert/s2t.py
+The data would be prepared at `$sslst_data_root/tsv` in tsv format.
