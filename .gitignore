@@ -1,13 +1,12 @@
 word-benchmarks
 sim-eval
 simVerb
-s3prl/
-data/
-data-bin/
-fairseq/
-results/
-tsv/
-wandb/
+mosesdecoder
+s3prl
+data
+data-bin
+fairseq
+wandb
 tmp*
 script/setup.sh
 
