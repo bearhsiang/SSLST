@@ -111,24 +111,28 @@ To do the preprocessing
 ## Training
 
 ### Text-to-text
-
+We use Fairseq's [transformer_iwslt_de_en](https://github.com/facebookresearch/fairseq/blob/b5e7b250913120409b872a940fbafec4d43c7b13/fairseq/models/transformer/transformer_legacy.py#L224) as our default model architecture.
 ```bash
 bash script/train/translation_t2t.sh [DATASET] [SRC_LANG] [TGT_LANG]
 ```
 
 ### Unit-to-text
-
+We also use Fairseq's [transformer_iwslt_de_en](https://github.com/facebookresearch/fairseq/blob/b5e7b250913120409b872a940fbafec4d43c7b13/fairseq/models/transformer/transformer_legacy.py#L224) as our default model architecture. 
 ```bash
 bash script/train/translation_u2t.sh [DATASET] [SUFFIX] [TGT_LANG]
 ```
 
 ### Speech-to-text 
-
+We use Fairseq's [s2t_transformer_s](https://github.com/facebookresearch/fairseq/blob/b5e7b250913120409b872a940fbafec4d43c7b13/fairseq/models/speech_to_text/s2t_transformer.py#L515) as our default model architecture.
 ```bash
 bash script/train/speech2text.sh [DATASET] [SRC_LANG] [TGT_LANG]
 ```
 
+The detail of the hyperparameters could be found in the training scripts.
+
 ## Inference
+
+We report SacreBLEU as performance metric.
 
 ### Cascade system
 
