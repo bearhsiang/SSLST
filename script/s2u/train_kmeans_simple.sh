@@ -24,6 +24,8 @@ if [ -f $km_path ]; then
     exit
 fi
 
+mkdir $sslst_data_root/kmeans_model -p
+
 ### dump features
 for rank in `seq 0 $((nshard-1))`; do
     if [ -f $feat_dir/${split}_${rank}_${nshard}.npy ] && [ -f $feat_dir/${split}_${rank}_${nshard}.len ]; then
