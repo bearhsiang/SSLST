@@ -7,7 +7,7 @@ tgt_lang=en
 
 filename=covost_v2.${src_lang}_${tgt_lang}.tsv
 
-if [ ! -f $sslst_covost_tsv_root/$filename ]; then
+if [ ! -f $sslst_covost_tsv_root/$filename.tar.gz ]; then
     wget -P $sslst_covost2_tsv_root https://dl.fbaipublicfiles.com/covost/$filename.tar.gz
     tar -zxvf $sslst_covost2_tsv_root/$filename.tar.gz --directory $sslst_covost2_tsv_root
 fi
