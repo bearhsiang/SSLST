@@ -12,7 +12,7 @@ pretrained_model=$sslst_data_root/mbart.cc25.v2/model.pt
 data_dir=$sslst_data_bin_root/$name/mbart-$src_lang-$tgt_lang
 arch=mbart_large
 
-fairseq-train \
+python -m fairseq_cli.train \
     $data_dir \
     --user-dir fairseq-src \
     --encoder-normalize-before --decoder-normalize-before \

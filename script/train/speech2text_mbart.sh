@@ -12,7 +12,7 @@ langs=ar_AR,cs_CZ,de_DE,en_XX,es_XX,et_EE,fi_FI,fr_XX,gu_IN,hi_IN,it_IT,ja_XX,kk
 pt_model_path=$sslst_data_root/mbart.cc25.v2/model.pt
 pt_model_arch=mbart_large
 
-fairseq-train \
+python -m fairseq_cli.train \
     $sslst_data_root/$name/s2t-mbart-$src_lang-$tgt_lang \
     --user-dir fairseq-src \
     --task speech_to_text_from_pretrained_bart \

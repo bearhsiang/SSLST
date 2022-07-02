@@ -12,7 +12,7 @@ arch=transformer_iwslt_de_en
 
 data_dir=$sslst_data_bin_root/$dataset/$src_lang-$tgt_lang
 
-fairseq-train \
+python -m fairseq_cli.train \
     $data_dir \
     --source-lang $src_lang --target-lang $tgt_lang \
     --arch $arch \

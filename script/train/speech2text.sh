@@ -7,7 +7,7 @@ tgt_lang=$3
 
 arch=s2t_transformer_s
 
-fairseq-train \
+python -m fairseq_cli.train \
     $sslst_data_root/$name/s2t-$src_lang-$tgt_lang \
     --user-dir fairseq-src \
     --task speech_to_text \

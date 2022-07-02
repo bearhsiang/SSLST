@@ -11,7 +11,7 @@ data_dir=$sslst_data_bin_root/$name/$src_lang-$tgt_lang
 save_dir=$sslst_output_root/$name/$arch-$src_lang-$tgt_lang
 wandb_name=sslst-$name
 
-fairseq-train \
+python -m fairseq_cli.train \
     $data_dir \
     --source-lang $src_lang --target-lang $tgt_lang \
     --arch $arch \
