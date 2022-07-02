@@ -1,5 +1,10 @@
 # SSLST
 
+This repo is for utilizing Self-Supervised Learning (SSL) speech models in speech translation. It supports three tasks relavant to speech translation:
+1. **T2T**: Machine Translation for transcription to translation.
+2. **S2T**: Speech Translation for speech SSL features to translation.
+3. **U2T**: Speech Translation for speech SSL discrete units to translation.
+
 ## Setup
 
 Please first setup the following configuration in `script/setup.sh`. (You could do this by copying and modifying `script/setup_example.sh`)
@@ -10,7 +15,7 @@ Please first setup the following configuration in `script/setup.sh`. (You could 
 
 ## Get data
 
-The speech dataset will be processed into tsv files. This repo default supports three common dataset, which are librispeech, libritrans and covost2, and also allow you to add new dataset.
+The speech dataset will be processed into tsv files. This repo default supports three common datasets, which are librispeech, libritrans and covost2, and also allow you to add new dataset.
 
 ### To prepare supported dataset
 
@@ -65,6 +70,7 @@ To do the preprocessing
     ```bash
     bash script/s2u/train_kmeans_simple.sh [DATASET] [KM_TAG] [SSL_MODEL] [LAYER] [N_CLUSTER] [PERCENTAGE]
     ``` 
+    If you didn't use `librispeech`, you need to change `split` from `train-clean-100` into other one in `script/s2u/train_kmeans_simple.sh`.
 
     The kmeans model could be found as `$sslst_data_root/kmeans_model/[SSL_MODEL]-[KM_TAG][PERCENTAGE]p-L[LAYER]-km[N_CLUSTER].bin`, e.g. `data/kmeans_model/hubert-ls0.01p-L9-km500.bin`.
 
