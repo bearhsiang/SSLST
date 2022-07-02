@@ -20,3 +20,11 @@ export sslst_covost2_root=/hdd/covost/$sslst_cv_version
 export sslst_mosesdecoder_root=~/Desktop/SSLST/mosesdecoder
 export sslst_fairseq_root=~/Desktop/SSLST/fairseq
 export sslst_covost_root=~/Desktop/SSLST/covost
+
+# spm_train(){
+#     python $sslst_fairseq_root/scripts/spm_train.py $@
+# }
+
+# spm_encode(){
+#     python $sslst_fairseq_root/scripts/spm_encode.py $@
+# }

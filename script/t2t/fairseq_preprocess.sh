@@ -11,7 +11,7 @@ data_bin_dir=$sslst_data_bin_root/$name/$src_lang-$tgt_lang
 
 mkdir -p $data_bin_dir
 
-fairseq-preprocess \
+python -m fairseq_cli.preprocess \
     -s $src_lang \
     -t $tgt_lang \
     --trainpref $data_dir/train \
