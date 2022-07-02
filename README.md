@@ -5,6 +5,18 @@ This repo is for utilizing Self-Supervised Learning (SSL) speech models in speec
 2. **S2T**: Speech Translation for speech SSL features to translation.
 3. **U2T**: Speech Translation for speech SSL discrete units to translation.
 
+## Requirements
+
+* fairseq
+    ```bash
+    git clone https://github.com/facebookresearch/fairseq.git
+    cd fairseq
+    git checkout 0f078de343d985e0cba6a5c1dc8a6394698c95c7
+    pip install -e ./
+    ```
+* torch (1.12.0 recommended)
+ 
+
 ## Setup
 
 Please first setup the following configuration in `script/setup.sh`. (You could do this by copying and modifying `script/setup_example.sh`)
