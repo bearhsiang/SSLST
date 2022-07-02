@@ -9,7 +9,7 @@ layer=$4
 n_cluster=$5
 percent=$6
 
-split=train
+split=train-clean-100
 nshard=5
 format=collect
 device=cuda
