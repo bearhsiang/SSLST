@@ -165,3 +165,57 @@ We report SacreBLEU as performance metric.
     ```bash 
     bash script/generate/speech2text.sh [DATASET] [SRC_LANG] [TGT_LANG]
     ```
+
+## Finetune from mBART
+
+### Preprocess
+
+1. Download `mbart.cc25` from [fairseq](https://github.com/facebookresearch/fairseq/blob/main/examples/mbart/README.md).
+2. Unzip and put the folder into `$sslst_data_root`
+
+### Tokenized text with mBART's spm model
+
+1. Set the dataset and langauge in `script/finetune/mbart-t2t.sh` properly.
+
+2. Run the script to create the binarized dataset.
+    ```bash
+    bash script/finetune/mbart-t2t.sh
+    ```
+
+### Convert hidden unit into mbart's subword
+
+1. Create the mapping of hidden units and subwords
+    ```bash
+    bash script/finetune/mbart-create_hidden_unit_mapping.sh [DATASET] [LANG]
+    ```
+
+2. Apply the mapping and create binarized dataset
+    ```bash
+    bash script/finetune/mbart-u2t.sh [DATASET] [SRC_LANG] [MBART_TGT_LANG]
+    ```
+
+### Training
+
+#### Text-to-text
+
+```bash
+bash script/train/translation_t2t_mbart.sh [DATASET] [SRC_LANG] [TGT_LANG]
+```
+
+#### Unit-to-text
+
+```bash
+bash script/train/translation_u2t_mbart.sh [DATASET] [SRC_LANG] [TGT_LANG]
+```
+
+### Inference
+
+#### Text-to-text
+```bash
+bash script/generate/translation_t2t_mbart.sh [DATASET] [SRC_LANG] [TGT_LANG]
+```
+
+#### Unit-to-text
+```bash
+bash script/generate/translation_u2t_mbart.sh [DATASET] [SRC_LANG] [TGT_LANG]
+```
