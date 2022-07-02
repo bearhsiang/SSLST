@@ -3,7 +3,7 @@
 source script/setup.sh
 
 dataset=libritrans-en-fr
-splits="train"
+splits="train dev test"
 audio_key=audio
 
 for split in $splits; do
