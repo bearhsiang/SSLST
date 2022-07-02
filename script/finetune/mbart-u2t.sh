@@ -21,7 +21,7 @@ for split in $splits; do
         --output $sslst_data_root/$dataset/$split.$mbart_src_lang
 done
 
-fairseq-preprocess \
+python -m fairseq_cli.preprocess \
     -s $mbart_src_lang \
     -t $mbart_tgt_lang \
     --trainpref $sslst_data_root/$dataset/train \
